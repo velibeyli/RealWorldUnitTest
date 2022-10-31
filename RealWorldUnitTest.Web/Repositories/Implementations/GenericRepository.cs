@@ -10,10 +10,10 @@ namespace RealWorldUnitTest.Web.Repositories.Implementations
     {
         private readonly UnitTestDbContext _context;
         private readonly DbSet<T> _dbSet;
-        public GenericRepository(UnitTestDbContext context, DbSet<T> dbSet)
+        public GenericRepository(UnitTestDbContext context)
         {
             _context = context;
-            _dbSet = dbSet;
+            _dbSet = _context.Set<T>();
         }
 
         public async Task<T> Create(T entity)
@@ -26,7 +26,7 @@ namespace RealWorldUnitTest.Web.Repositories.Implementations
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public async Task<IEnumerable<T>> GetAll()
@@ -42,7 +42,8 @@ namespace RealWorldUnitTest.Web.Repositories.Implementations
         public void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChangesAsync();
+            // _dbSet.Update(entity);
+            _context.SaveChanges();
         }
     }
 }
