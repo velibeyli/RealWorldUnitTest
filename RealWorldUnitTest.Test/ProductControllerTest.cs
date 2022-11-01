@@ -79,5 +79,24 @@ namespace RealWorldUnitTest.Test
             Assert.Equal<int>(404,redirect.StatusCode); 
 
         }
+
+        [Theory]
+        [InlineData(4)]
+        public async void Details_ValidId_ReturnProduct(int productId)
+        {
+            Product product = products.First(x => x.Id == productId);
+
+            _mockRepo.Setup(x => x.GetById(productId)).ReturnsAsync(product);
+
+            var result = await _controller.Details(productId);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            var resultProduct = Assert.IsAssignableFrom<Product>(viewResult.Model);
+
+            Assert.Equal(product.Id,resultProduct.Id);
+            Assert.Equal(product.Name, resultProduct.Name);
+
+        }
     }
 }
