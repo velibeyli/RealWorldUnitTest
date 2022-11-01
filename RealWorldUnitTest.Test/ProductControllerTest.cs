@@ -109,5 +109,20 @@ namespace RealWorldUnitTest.Test
 
             Assert.Equal("Index",redirect.ActionName);
         }
+
+        [Fact]
+        public async void CreatePOST_ValidModelState_CreateModelExecute()
+        {
+            Product newProduct = null;
+
+            _mockRepo.Setup(repo => repo.Create(It.IsAny<Product>()))
+                .Callback<Product>(x => newProduct = x);
+
+            var result = await _controller.Create(products.First());
+
+            _mockRepo.Verify(repo => repo.Create(It.IsAny<Product>()),Times.Once);
+
+            Assert.Equal(products.First().Id, newProduct.Id);
+        }
     }
 }
