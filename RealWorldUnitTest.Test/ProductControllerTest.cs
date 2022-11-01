@@ -79,5 +79,13 @@ namespace RealWorldUnitTest.Test
             Assert.Equal<int>(404,redirect.StatusCode); 
 
         }
+
+        [Fact]
+        public void Create_ActionExecute_ReturnView()
+        {
+            var result = _controller.Create();
+
+            Assert.IsType<ViewResult>(result);
+        }
     }
 }
