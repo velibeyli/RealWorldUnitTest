@@ -54,7 +54,6 @@ namespace RealWorldUnitTest.Test
 
         }
 
-
         [Fact]
         public async void Details_IdIsNull_ReturnRedirectToIndexAction()
         {
@@ -135,7 +134,6 @@ namespace RealWorldUnitTest.Test
             _mockRepo.Verify(repo => repo.Create(It.IsAny<Product>()),Times.Never);
 
         }
-
 
         [Fact]
         public async void Edit_IsIdNull_ReturnRedirectToIndexAction()
@@ -228,6 +226,14 @@ namespace RealWorldUnitTest.Test
 
         }
 
+
+         [Fact]
+        public async void Delete_IdIsNull_ReturnNotFound()
+        {
+            var result = await _controller.Delete(null);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
 
     }
 }
